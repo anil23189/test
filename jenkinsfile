@@ -34,8 +34,8 @@ pipeline {
 		   script {
              b=build(job: 'Runversion_Build', propagate: false).result
 			 if(b == 'FAILURE') {
-             build job:'Run_Undo_Versioned_Build' propagate: true, wait: true"
-			 build "job:'Recompile_Invalids' propagate: true, wait: true"
+                          build "job:'Run_Undo_Versioned_Build' propagate: true, wait: true"
+			  build "job:'Recompile_Invalids' propagate: true, wait: true"
 			 
             currentBuild.result = 'SUCCESS' // of FAILURE
 			}
