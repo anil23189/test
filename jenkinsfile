@@ -1,4 +1,3 @@
-def b = 'UNKNOWN'
 pipeline {
     agent any
     stages {
@@ -11,43 +10,22 @@ pipeline {
             }
         }
         
-        stage ('Invoke App_Build') {
-        
+        stage ('Invoke DB jobs') {
             steps {
-            
-            build "job: 'App_Build', propagate: true, wait: true"
-            
-            
-        }
-        stage ('Invoke flyway-info') { 
-           steps {
-                 build "job: 'flyway-info', propagate: true, wait: true"
+                 build job: 'App_Build'
+                //build "job: '1st', propagate: true, wait: true"
                 
             }
             
         }
-		stage ('Invoke Runversion_Build') { 
-           steps {
-		   script {
-             b=build(job: 'Runversion_Build', propagate: false).result
-			 if(b == 'FAILURE') {
-                          build "job:'Run_Undo_Versioned_Build' propagate: true, wait: true"
-			  build "job:'Recompile_Invalids' propagate: true, wait: true"
-			 
-            currentBuild.result = 'SUCCESS' // of FAILURE
-			}
-			else {
-			build "job:'Run_Repeatable_build' propagate: true, wait: true"
-			build "job:'Run_Undo_Repeatable_Build' propagate: true, wait: true"
-			build "job:'Run_Undo_Versioned_Build' propagate: true, wait: true"
-            
-					}
+        stage ('Invoke application jobs') { 
+            steps {
+                  build job: 'flyway-info'
+                //build "job: '1st', propagate: true, wait: true"
                 
-				}
+            }
             
-			}
+        }
         
-		}
-	}
-		}
-	}
+}
+}
