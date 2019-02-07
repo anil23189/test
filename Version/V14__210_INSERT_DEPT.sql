@@ -1,4 +1,4 @@
-insert into DEPT (DEPTNO, DNAME, LOC )
+insert into DEPT (DEPTNO, DNAME, LOC)
 values(10, 'ACCOUNTING', 'NEW YORK');
 
 insert into dept  
